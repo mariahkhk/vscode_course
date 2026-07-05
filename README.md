@@ -1,25 +1,11 @@
-# 🎪🤹 VSCode Mastery Course 🤹🎪
+# VS Code kursus
 
-## 🔥🔥🔥 WHAT YOU'LL LEARN 🔥🔥🔥
+Praktilised juhendid VS Code'iga töötamiseks. Iga fail on lühike how-to + üks ülesanne lõpus.
 
-🔹 **Master VSCode Basics** 💻✨  
-_(Because banging your head against the keyboard isn't a real skill)_  
-🔹 **Customize Your Setup** 🎨 _Make VSCode your chaotic masterpiece. Or a disaster. Your choice._  
-🔹 **Top 25+ Extensions & Plugins** 🔌 _Because doing things manually is for cavemen._  
-🔹 **Version Control with Git** 🔄 _So you can undo all your terrible decisions._  
-🔹 **Work Smarter, Not Harder** 🧠💡  
-⚡ **Snippets & Shortcuts** – _Because typing is overrated._  
-📂 **Organize Your Projects** – _Good luck finding that file from last week._  
-🔄 **Sync Across Devices** – _For the indecisive who can’t commit to one computer._  
+## Failid
 
----
-
-## 🎯 WHO IS THIS FOR? (PROBABLY YOU)
-
-🧑‍💻 **TEENS WHO CODE** – _Or just want to look important while staring at a screen._  
-📚 **STUDENTS WHO LEARN FAST** – _And then pretend they always knew this stuff._  
-🎮 **ANYONE WHO WANTS TO LEVEL UP** – _Because mediocrity is boring._  
-
----
-
-## 🚀🛑 STOP. SCROLLING. START. CODING. 🛑🚀
+| Fail | Teemad |
+|---|---|
+| [1. Failid, workspace, editorid](1_failid_workspace_editorid.md) | failide loomine, multi-root workspace, editorid, mitu akent |
+| [2. Laiendused](2_laiendused_remote_prettier.md) | laienduse install, Remote-SSH, Remote Explorer, Prettier, Profiles |
+| [Töölaud ja terminal](vscode_toolaud_ja_terminal.md) | kaks akent (lokaal + remote), terminal, shellid, git |
