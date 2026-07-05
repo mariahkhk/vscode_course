@@ -26,6 +26,8 @@ Integreeritud terminal jookseb VS Code'i sees — pole vaja eraldi akent.
 
 Remote-SSH aknas avaneb terminal automaatselt **VM-i shellis** — ei pea eraldi `ssh` käsku kirjutama.
 
+> **Windows:** git ei tule kaasa. Installi **Git for Windows** (git-scm.com) — siis ilmub **Git Bash** shellide dropdown-i ja `git` töötab. macOS/Linuxil on git enamasti juba olemas.
+
 ## Views (vaated)
 
 Vasakul **Activity Bar** (ikoonide riba) lülitab vaadete vahel — klõpsa ikoonil:
@@ -59,7 +61,7 @@ Source Control vaade (Activity Bar'i **hargnemise ikoon**) näitab muudetud fail
 3. **Commit:** kirjuta sõnum ülaossa, vajuta **linnukese** nuppu.
 4. **Push/pull:** all olekuribal **sünkroonimise** ikoon, või **⋯** menüü → **Push**.
 
-Uus repo: Source Control vaates nupp **Initialize Repository**.
+Uus repo: Source Control vaates nupp **Initialize Repository**. (Windows: eeldab, et **Git for Windows** on installitud — muidu Source Control ütleb *git not found*.)
 
 ![Joonis 5](pics/10-source-control.png)
 *Joonis 5. Source Control — muudetud failid, stage ja commit.*
