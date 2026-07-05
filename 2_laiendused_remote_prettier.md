@@ -2,13 +2,13 @@
 
 ## Laienduse paigaldamine
 
-Ava Extensions: `Ctrl+Shift+X`. Otsi nime järgi, vajuta **Install**. Populaarsuse (installide arv) järgi näed, mis on laialt kasutusel.
+Ava **Extensions** vaade — Activity Bar'i **klotside** ikoon vasakul. Otsi nime järgi, vajuta **Install**. Populaarsuse (installide arv) järgi näed, mis on laialt kasutusel.
 
 ## Remote - SSH
 
 Võimaldab töötada kaugmasinal (VM) nii, nagu see oleks lokaalne.
 
-**SSH võti (kui veel pole).** Genereeri võti ja kopeeri see VM-i:
+**SSH võti (kui veel pole).** Genereeri võti ja kopeeri see VM-i (terminalis):
 ```bash
 ssh-keygen -t ed25519
 ssh-copy-id <eesnimi>@192.168.35.12X
@@ -23,8 +23,8 @@ ssh <eesnimi>@192.168.35.12X   # testi, et sisse saad ilma paroolita
        User <eesnimi>
        IdentityFile ~/.ssh/id_ed25519
    ```
-3. Command Palette (`Ctrl+Shift+P`) → **Remote-SSH: Connect to Host** → `lab-vm`.
-4. Kui all vasakul on `SSH: lab-vm`, oled sees. **Open Folder** avab VM-i failisüsteemi.
+3. All vasakul **Remote** ikoon (`><`) → **Connect to Host** → `lab-vm`. (Sama valik on Remote Explorer vaates.)
+4. Kui all vasakul on `SSH: lab-vm`, oled sees. **File → Open Folder** avab VM-i failisüsteemi.
 
 ![Joonis 1](pics/03-ssh-indikaator.png)
 *Joonis 1. Indikaator all vasakul: `SSH: lab-vm`.*
@@ -35,7 +35,7 @@ Remote'is töötades tuleb teised laiendused (nt Prettier) installida **VM-i poo
 
 Activity Bar'i vaade, mis loetleb kõik su SSH-sihtmärgid.
 
-- Ava Remote Explorer, ülal vali **SSH**.
+- Ava Remote Explorer (ekraani ikoon Activity Bar'is), ülal vali **SSH**.
 - `~/.ssh/config`-i `Host`-id ilmuvad loendisse.
 - Klõpsa sihtmärgil → **Connect** (samasse või uude aknasse).
 
@@ -47,8 +47,8 @@ Activity Bar'i vaade, mis loetleb kõik su SSH-sihtmärgid.
 Vormindab koodi ühtlaselt (taanded, jutumärgid, reavahetused) automaatselt.
 
 1. Installi laiendus **Prettier - Code formatter** (esbenp).
-2. Vorminda fail käsitsi: `Shift+Alt+F` (`Shift+Option+F` macOS).
-3. Vorminda automaatselt salvestamisel — pane seadetesse (`Ctrl+,`):
+2. Vorminda fail käsitsi: paremklõps failis → **Format Document**.
+3. Vorminda automaatselt salvestamisel — ava seaded (**File → Preferences → Settings**), otsi `format on save` ja lülita sisse; määra default formatter Prettier'iks. (Või JSON-vaates:)
    ```json
    {
      "editor.formatOnSave": true,
@@ -65,15 +65,18 @@ Prettier vormindab nt JSON, YAML, Markdown ja CSS faile.
 
 Profile on eraldi komplekt laiendusi ja seadeid. Kasulik, kui eri kursustel/projektidel on erinevad tööriistad ja sa ei taha, et need seguneksid.
 
-1. Command Palette (`Ctrl+Shift+P`) → **Profiles: Create Profile**.
+1. All vasakul **hammasratta** ikoon → **Profiles → Create Profile**.
 2. Anna nimi (nt `vscode-kursus`), vali mida kaasata (laiendused, seaded).
-3. Vaheta profiili: all vasakul hammasratta ikoon → **Profiles**, või Command Palette → **Profiles: Switch Profile**.
+3. Vaheta profiili: sama hammasratta ikoon → **Profiles** → vali profiil.
 
 Profiili saab siduda konkreetse workspace'iga — siis vahetub see automaatselt, kui selle projekti avad.
 
 ## Ülesanne
 
 1. Installi Prettier.
-2. Loo segase taandega `.json` fail ja vorminda see `Shift+Alt+F`-ga.
+2. Loo segase taandega `.json` fail ja vorminda see paremklõps → **Format Document**.
 3. Lülita **Format on Save** sisse ja veendu, et salvestamine vormindab faili.
 4. Ühendu Remote-SSH kaudu VM-iga ja installi Prettier ka **VM-i poolele**.
+
+
+---
