@@ -1,16 +1,7 @@
----
-tags:
-  - SSH
-  - Git
-  - GitHub
-  - Ansible
----
-
-# SSH: GitHub ja lab-masinad
+# SSH — GitHub ja lab-masinad
 
 **Privaatvõti** (`id_ed25519`) jääb su masinasse, **avalik võti** (`id_ed25519.pub`) läheb serverisse — GitHubi või lab-VM-i. Parool ei liigu üle võrgu. Sama võti töötab kõigi serveritega: loo üks kord, lisa kuhu vaja.
 
-<figure markdown="span">
 ```mermaid
 sequenceDiagram
     participant K as Sinu masin
@@ -20,25 +11,20 @@ sequenceDiagram
     K->>G: Vastus, allkirjastatud privaatvõtmega
     G->>K: Kontrollib avaliku võtmega, sisse lubatud
 ```
-  <figcaption>Joonis 1. SSH-võtmepaari autentimine (Talvik, 2025).</figcaption>
-</figure>
+*Joonis 1. SSH-võtmepaari autentimine.*
 
----
-
-# Võtme seadistamine
+## Võtme seadistamine
 
 Windows (Git Bash) ja Linux.
 
-<figure markdown="span">
 ```mermaid
 graph LR
-    A[ssh-keygen] --> B[id_ed25519<br/>privaat: jääb sulle]
-    A --> C[id_ed25519.pub<br/>avalik: läheb serverisse]
-    B --> D[ssh-agent<br/>hoiab mälus]
+    A[ssh-keygen] --> B[id_ed25519 privaat: jääb sulle]
+    A --> C[id_ed25519.pub avalik: läheb serverisse]
+    B --> D[ssh-agent hoiab mälus]
     C --> E[GitHub / lab-VM]
 ```
-  <figcaption>Joonis 2. Võtme loomine ja kuhu kumbki pool läheb (Talvik, 2025).</figcaption>
-</figure>
+*Joonis 2. Võtme loomine ja kuhu kumbki pool läheb.*
 
 **1. Kontrolli** olemasolevaid võtmeid — kui `id_ed25519.pub` on, mine sammu 3 juurde:
 
@@ -59,17 +45,12 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ```
 
-**4. Kopeeri avalik võti** (`.pub`, mitte privaat):
+**4. Kopeeri avalik võti** (`.pub`, mitte privaat) lõikelauale:
 
-=== "Linux"
-    ```bash
-    xclip -selection clipboard < ~/.ssh/id_ed25519.pub
-    ```
-
-=== "Windows (Git Bash)"
-    ```bash
-    clip < ~/.ssh/id_ed25519.pub
-    ```
+```bash
+xclip -selection clipboard < ~/.ssh/id_ed25519.pub   # Linux
+clip < ~/.ssh/id_ed25519.pub                          # Windows (Git Bash)
+```
 
 **5. Lisa GitHubi:** Settings → SSH and GPG keys → New SSH key → Title + kleebi → Add SSH key.
 
@@ -86,13 +67,10 @@ git clone git@github.com:kasutaja/repo.git
 git remote set-url origin git@github.com:kasutaja/repo.git   # HTTPS-repo SSH peale
 ```
 
----
-
-# Seadistusfail (~/.ssh/config)
+## Seadistusfail (~/.ssh/config)
 
 SSH loeb ülalt alla; iga seade võetakse **esimesest sobivast** `Host`-plokist. Konkreetsed hostid üleval, `Host *` (kehtib kõigile) all.
 
-<figure markdown="span">
 ```mermaid
 graph TD
     A[ssh lab1] --> B[Loe config ülalt alla]
@@ -100,8 +78,7 @@ graph TD
     C -->|Host lab1| D[Võta selle ploki seaded]
     D --> E[Host * täidab puuduvad vaikeseaded]
 ```
-  <figcaption>Joonis 3. Kuidas SSH config-plokke sobitab (Talvik, 2025).</figcaption>
-</figure>
+*Joonis 3. Kuidas SSH config-plokke sobitab.*
 
 ```text
 Host github.com
@@ -131,9 +108,7 @@ Host *
 
 Nüüd `ssh lab1` asendab `ssh student@10.0.0.11`; `git clone git@github-kool:org/repo.git` kasutab kooli võtit.
 
----
-
-# Lab-masin ja Ansible
+## Lab-masin ja Ansible
 
 Vii avalik võti VM-i (üks kord, küsib parooli), siis logi ilma paroolita:
 
@@ -144,18 +119,13 @@ ssh lab1
 
 Ansible kasutab sama SSH-d — kui `ssh lab1` töötab, töötab ka Ansible.
 
-!!! info "Control node"
-    Ansible ei tööta Windowsis natiivselt — käivita WSL-i (Ubuntu) alt. Control node = Linux/WSL, hallatavad = Linux-VM-id.
-
-<figure markdown="span">
 ```mermaid
 graph LR
-    C[Control node<br/>Linux / WSL] -->|SSH + võti| L1[lab1]
+    C[Control node Linux / WSL] -->|SSH + võti| L1[lab1]
     C -->|SSH + võti| L2[lab2]
     C -->|SSH + võti| L3[lab3]
 ```
-  <figcaption>Joonis 4. Ansible juhib Linux-VM-e üle SSH (Talvik, 2025).</figcaption>
-</figure>
+*Joonis 4. Ansible juhib Linux-VM-e üle SSH.*
 
 `inventory.ini`:
 
@@ -176,9 +146,9 @@ ansible -i inventory.ini lab -m ping
 
 Jumpboxi taga piisab `config`-i `ProxyJump` reast — Ansible loeb sama faili.
 
----
+> **Windows:** Ansible ei tööta natiivselt — käivita WSL-i (Ubuntu) alt. Control node = Linux/WSL, hallatavad = Linux-VM-id.
 
-# Serveri pool (sshd)
+## Serveri pool (sshd)
 
 Kliendil on võtmed ja `config`; serveril töötab **sshd** oma failidega:
 
@@ -188,14 +158,12 @@ Kliendil on võtmed ja `config`; serveril töötab **sshd** oma failidega:
 
 Host-võti tõestab serverit sulle, kasutaja võti sind serverile — kaks eri võtit.
 
-<figure markdown="span">
 ```mermaid
 graph LR
-    K[Klient] -->|kasutaja avalik võti<br/>authorized_keys| S[Server]
-    S -->|host-võti<br/>known_hosts| K
+    K[Klient] -->|kasutaja avalik võti: authorized_keys| S[Server]
+    S -->|host-võti: known_hosts| K
 ```
-  <figcaption>Joonis 5. Kahepoolne usaldus: kes keda tõestab (Talvik, 2025).</figcaption>
-</figure>
+*Joonis 5. Kahepoolne usaldus: kes keda tõestab.*
 
 Olulised `sshd_config` read:
 
@@ -212,12 +180,9 @@ Jõustamine:
 sudo sshd -t && sudo systemctl restart ssh
 ```
 
-!!! warning
-    Enne `PasswordAuthentication no` veendu, et võtmega sisenemine töötab — muidu lukustad end välja.
+> **Hoiatus:** enne `PasswordAuthentication no` veendu, et võtmega sisenemine töötab — muidu lukustad end välja.
 
----
-
-# Teatmik
+## Teatmik
 
 **Võtmetüübid:** `ed25519` (vaikimisi), `rsa -b 4096` (ainult vana süsteem), `ecdsa`/`dsa` ei.
 
@@ -239,28 +204,13 @@ chmod 644 ~/.ssh/id_ed25519.pub
 | `Host key verification failed` | eemalda vana rida `known_hosts`-ist |
 | Ansible `UNREACHABLE` | testi `ssh host` käsitsi, kontrolli `ansible_host` |
 
-*Tabel 1. Levinumad probleemid*
+*Tabel 1. Levinumad probleemid.*
+
+## Ülesanne
+
+1. Loo `ed25519` võti, lisa agenti ja GitHubi, testi `ssh -T git@github.com` — vastus peab algama su kasutajanimega.
+2. Tee `~/.ssh/config`-i alias `lab1` oma lab-VM-ile, vii võti `ssh-copy-id`-ga ja logi sisse `ssh lab1`-ga (ilma paroolita).
+3. Kirjuta `inventory.ini` ja käivita `ansible -i inventory.ini lab -m ping` — saad `pong`.
+
 
 ---
-
-# Enesekontroll
-
-??? question "1. Milline fail läheb serverisse?"
-    `.pub` (avalik). Privaat jääb sulle.
-
-??? question "2. Mis järjekorras loeb SSH config-faili?"
-    Ülalt alla, esimene sobiv `Host` võidab. `Host *` all.
-
-??? question "3. Ansible `UNREACHABLE` — kust alustad?"
-    `ssh host` käsitsi. Kui ei tööta, on viga SSH-s.
-
-??? question "4. Host-võti vs kasutaja võti?"
-    Host-võti tõestab serverit sulle (`known_hosts`), kasutaja võti sind serverile (`authorized_keys`).
-
----
-
-# Allikad
-
-- GitHub. *Connecting to GitHub with SSH*. <https://docs.github.com/en/authentication/connecting-to-github-with-ssh>
-- GitHub. *Troubleshooting SSH*. <https://docs.github.com/en/authentication/troubleshooting-ssh>
-- Ansible. *Connection details*. <https://docs.ansible.com/ansible/latest/inventory_guide/connection_details.html>
